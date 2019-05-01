@@ -1,3 +1,13 @@
+ingredients 0.3.3
+----------------------------------------------------------------
+* `show_profiles` and `show_residuals` functions extend Ceteris Paribus Plots.
+* `show_aggreagated_profiles` is renamed to `show_aggregated_profiles`
+
+ingredients 0.3.2
+----------------------------------------------------------------
+* added new functions `describe()` and `print.ceteris_paribus_descriptions()` for text based descriptions of Ceteris Paribus explainers
+* `plot.ceteris_paribus_explainer` works now also for categorical variables. Use the `only_numerical = FALSE` to force bars
+
 ingredients 0.3.1
 ----------------------------------------------------------------
 * added references to PM VEE
