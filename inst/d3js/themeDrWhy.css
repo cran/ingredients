@@ -1,7 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,600');
-
 text {
-    fill: #371ea3;
+  font-family:'Fira Sans';
+  font-style:normal;
+  fill: #371ea3;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 .bigTitle {
@@ -12,25 +17,40 @@ text {
 
 .smallTitle{
     font-weight: 600;
-    font-size: 13px; 
+    font-size: 13px;
     text-align: left;
 }
 
 .axisTitle{
-    font-weight: 600; 
-    font-size: 13px;  
+    font-weight: 600;
+    font-size: 13px;
     text-align: center;
 }
 
 .axisLabel{
-    font-weight:400; 
-    font-size: 11px; 
+    font-weight:400;
+    font-size: 11px;
+}
+
+.axisLabel .domain{
+    stroke: #371ea3;
 }
 
 .legendTitle{
-    font-weight: 400; 
+    font-weight: 400;
     font-size: 13px;
     text-align: left;
+}
+
+.legendLabel{
+    font-weight: 400;
+    font-size: 11px;
+    text-align: left;
+}
+
+.legendBox{
+    fill: #ceced9;
+    opacity: 0.5;
 }
 
 .interceptLine{

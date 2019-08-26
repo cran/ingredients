@@ -1,21 +1,23 @@
-#' Plots Ceteris Paribus Profiles
+#' @title Plots Ceteris Paribus Profiles
 #'
-#' Function 'plot.ceteris_paribus_explainer' plots Individual Variable Profiles for selected observations.
+#' @description
+#' Function \code{plot.ceteris_paribus_explainer} plots Individual Variable Profiles for selected observations.
 #' Various parameters help to decide what should be plotted, profiles, aggregated profiles, points or rugs.
 #'
 #' Find more detailes in \href{https://pbiecek.github.io/PM_VEE/ceterisParibus.html}{Ceteris Paribus Chapter}.
 #'
-#' @param x a ceteris paribus explainer produced with function `ceteris_paribus()`
+#' @param x a ceteris paribus explainer produced with function \code{ceteris_paribus()}
 #' @param ... other explainers that shall be plotted together
 #' @param color a character. Either name of a color or name of a variable that should be used for coloring
 #' @param size a numeric. Size of lines to be plotted
 #' @param alpha a numeric between 0 and 1. Opacity of lines
-#' @param facet_ncol number of columns for the `facet_wrap()`
-#' @param variables if not NULL then only `variables` will be presented
-#' @param only_numerical a logical. If TRUE then only numerical variables will be plotted. If FALSE then only selected variables will be plotted as bars.
+#' @param facet_ncol number of columns for the \code{\link[ggplot2]{facet_wrap}}
+#' @param variables if not \code{NULL} then only \code{variables} will be presented
+#' @param variable_type a character. If "numerical" then only numerical variables will be plotted.
+#' If "categorical" then only categorical variables will be plotted.
 #'
-#' @return a ggplot2 object
-#' @export
+#' @return a \code{ggplot2} object
+#'
 #' @import ggplot2
 #' @importFrom stats aggregate
 #' @importFrom scales trans_new
@@ -24,30 +26,35 @@
 #'
 #' @examples
 #' library("DALEX")
-#' # Toy examples, because CRAN angels ask for them
+#'
 #' titanic <- na.omit(titanic)
+#'
 #' model_titanic_glm <- glm(survived == "yes" ~ gender + age + fare,
-#'                        data = titanic, family = "binomial")
+#'                          data = titanic, family = "binomial")
 #'
 #' explain_titanic_glm <- explain(model_titanic_glm,
-#'                            data = titanic[,-9],
-#'                            y = titanic$survived == "yes")
+#'                                data = titanic[,-9],
+#'                                y = titanic$survived == "yes",
+#'                                verbose = FALSE)
+#'
 #' cp_rf <- ceteris_paribus(explain_titanic_glm, titanic[1,])
 #' cp_rf
+#'
 #' plot(cp_rf, variables = "age")
 #'
-#'  \donttest{
-#'  library("randomForest")
-#'  model_titanic_rf <- randomForest(survived == "yes" ~ gender + age + class + embarked +
-#'                                     fare + sibsp + parch,  data = titanic)
-#'  model_titanic_rf
+#' \donttest{
+#' library("randomForest")
+#' model_titanic_rf <- randomForest(survived == "yes" ~ gender + age + class + embarked +
+#'                                  fare + sibsp + parch,  data = titanic)
 #'
-#'  explain_titanic_rf <- explain(model_titanic_rf,
-#'                            data = titanic[,-9],
-#'                            y = titanic$survived == "yes",
-#'                            label = "Random Forest v7")
+#' explain_titanic_rf <- explain(model_titanic_rf,
+#'                               data = titanic[,-9],
+#'                               y = titanic$survived == "yes",
+#'                               label = "Random Forest v7",
+#'                               verbose = FALSE)
 #'
 #' selected_passangers <- select_sample(titanic, n = 100)
+#'
 #' cp_rf <- ceteris_paribus(explain_titanic_rf, selected_passangers)
 #' cp_rf
 #'
@@ -57,6 +64,7 @@
 #'
 #' selected_passangers <- select_sample(titanic, n = 1)
 #' selected_passangers
+#'
 #' cp_rf <- ceteris_paribus(explain_titanic_rf, selected_passangers)
 #'
 #' plot(cp_rf) +
@@ -67,7 +75,7 @@
 #'
 #' plot(cp_rf, variables = "class")
 #' plot(cp_rf, variables = c("class", "embarked"), facet_ncol = 1)
-#' plot(cp_rf, variables = c("class", "embarked", "gender", "sibsp"), only_numerical = FALSE)
+#' plot(cp_rf, variables = c("class", "embarked", "gender", "sibsp"), variable_type = "categorical")
 #'
 #' }
 #' @export
@@ -75,8 +83,10 @@ plot.ceteris_paribus_explainer <- function(x, ...,
    size = 1,
    alpha = 1,
    color = "#46bac2",
-   only_numerical = TRUE,
+   variable_type = "numerical",
    facet_ncol = NULL, variables = NULL) {
+
+  check_variable_type(variable_type)
 
   # if there is more explainers, they should be merged into a single data frame
   dfl <- c(list(x), list(...))
@@ -95,14 +105,14 @@ plot.ceteris_paribus_explainer <- function(x, ...,
   is_color_a_variable <- color %in% c(all_variables, "_label_", "_vname_", "_ids_")
   # only numerical or only factors?
   is_numeric <- sapply(all_profiles[, all_variables, drop = FALSE], is.numeric)
-  if (only_numerical) {
+  if (variable_type == "numerical") {
     vnames <- names(which(is_numeric))
     all_profiles$`_x_` <- 0
 
     if (length(vnames) == 0) {
-      # but `variables`` are selected, then change to factor
+      # but `variables` are selected, then change to factor
       if (length(variables) > 0) {
-        only_numerical <- FALSE
+        variable_type <- "categorical"
         vnames <- variables
         all_profiles$`_x_` <- ""
       } else {
@@ -119,7 +129,7 @@ plot.ceteris_paribus_explainer <- function(x, ...,
   }
 
   # how to plot profiles
-  if (only_numerical) {
+  if (variable_type == "numerical") {
     # select only suitable variables  either in vnames or in variables
     all_profiles <- all_profiles[all_profiles$`_vname_` %in% vnames, ]
     pl <- plot_numerical_ceteris_paribus(all_profiles, is_color_a_variable, color, size, alpha, facet_ncol = facet_ncol)

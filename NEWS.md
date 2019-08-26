@@ -1,7 +1,38 @@
+ingredients 0.3.9
+---------------------------------------------------------------
+* change `only_numerical` parameter to `variable_type` in functions aggregated_profiles(),
+cluster_profiles(), plot() and others, as requested in #15
+
+ingredients 0.3.8
+----------------------------------------------------------------
+* Natural language description generated with `describe()` function for `ceteris_paribus()`, `feature_importance()` and `aggregated_profiles()` explanations. 
+
+
+ingredients 0.3.7
+----------------------------------------------------------------
+* `aggregated_profiles_conditional` and `aggregated_profiles_accumulated` are rewritten with some code fixes
+
+ingredients 0.3.6
+----------------------------------------------------------------
+* a new verion of `lime` is implemented in the `lime()`/`aspect_importance()` function.
+* Kasia Pekala and Huber Baniecki are added as contributors.
+
+ingredients 0.3.5
+----------------------------------------------------------------
+* new feature [#29](https://github.com/ModelOriented/ingredients/issues/29). Feature importance now takes an argument `B` that replicates permutations `B` times and calculates average from drop loss.
+
+ingredients 0.3.4
+----------------------------------------------------------------
+* `plotD3` now supports Ceteris Paribus Profiles.
+* `feature_importance` now can take `variable_grouping` argument that assess importance of group of features
+* fix in ceteris_paribus, now it handles models with just one variable
+* fix [#27](https://github.com/ModelOriented/ingredients/issues/27) for multiple rows 
+
 ingredients 0.3.3
 ----------------------------------------------------------------
 * `show_profiles` and `show_residuals` functions extend Ceteris Paribus Plots.
 * `show_aggreagated_profiles` is renamed to `show_aggregated_profiles`
+* centering of ggplot2 title
 
 ingredients 0.3.2
 ----------------------------------------------------------------

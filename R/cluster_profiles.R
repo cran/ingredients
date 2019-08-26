@@ -1,22 +1,25 @@
 #' Cluster Ceteris Paribus Profiles
 #'
-#' Function 'cluster_profiles' calculates aggregates of ceteris paribus profiles based on
+#' This function calculates aggregates of ceteris paribus profiles based on
 #' hierarchical clustering.
 #'
 #' Find more detailes in the \href{https://pbiecek.github.io/PM_VEE/partialDependenceProfiles.html}{Clustering Profiles Chapter}.
 #'
-#' @param x a ceteris paribus explainer produced with function `ceteris_paribus()`
+#' @param x a ceteris paribus explainer produced with function \code{ceteris_paribus()}
 #' @param ... other explainers that shall be plotted together
-#' @param variables if not NULL then only `variables` will be presented
+#' @param variables if not \code{NULL} then only \code{variables} will be presented
 #' @param k number of clusters for the hclust function
 #' @param center shall profiles be centered before clustering
-#' @param aggregate_function a function for profile aggregation. By default it's 'mean'
-#' @param only_numerical a logical. If TRUE then only numerical variables will be plotted. If FALSE then only categorical variables will be plotted.
+#' @param aggregate_function a function for profile aggregation. By default it's \code{mean}
+#' @param variable_type a character. If "numerical" then only numerical variables will be computed.
+#' If "categorical" then only categorical variables will be computed.
 #'
 #' @references Predictive Models: Visual Exploration, Explanation and Debugging \url{https://pbiecek.github.io/PM_VEE}
 #'
 #' @importFrom stats as.dist cutree hclust
-#' @return a 'aggregated_profiles_explainer' layer
+#'
+#' @return an object of the class \code{aggregated_profiles_explainer}
+#'
 #' @examples
 #' library("DALEX")
 #' titanic <- na.omit(titanic)
@@ -62,10 +65,13 @@
 #' @export
 cluster_profiles <- function(x, ...,
                        aggregate_function = mean,
-                       only_numerical = TRUE,
+                       variable_type = "numerical",
                        center = FALSE,
                        k = 3,
                        variables = NULL) {
+
+  check_variable_type(variable_type)
+
   # if there is more explainers, they should be merged into a single data frame
   dfl <- c(list(x), list(...))
   all_profiles <- do.call(rbind, dfl)
@@ -81,7 +87,7 @@ cluster_profiles <- function(x, ...,
   }
   # only numerical or only factors?
   is_numeric <- sapply(all_profiles[, all_variables, drop = FALSE], is.numeric)
-  if (only_numerical) {
+  if (variable_type == "numerical") {
     vnames <- names(which(is_numeric))
     if (length(vnames) == 0) stop("There are no numerical variables")
     all_profiles$`_x_` <- 0
@@ -131,6 +137,6 @@ cluster_profiles <- function(x, ...,
   aggregated_profiles$`_label_` <- paste(aggregated_profiles$`_label_`, aggregated_profiles$`_cluster_`, sep = "_")
   aggregated_profiles$`_ids_` <- 0
 
-  class(aggregated_profiles) = c("aggregated_profiles_explainer", "data.frame")
+  class(aggregated_profiles) <- c("aggregated_profiles_explainer", "data.frame")
   aggregated_profiles
 }
