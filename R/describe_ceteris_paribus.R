@@ -21,27 +21,25 @@
 #' @param label label for model's prediction
 #'
 #' @importFrom graphics plot
-#' @importFrom stats setNames smooth
+#' @importFrom stats setNames smooth lm
 #'
 #' @examples
 #' library("DALEX")
-#' library("ingredients")
 #' library("randomForest")
-#' titanic <- na.omit(titanic)
-#' \donttest{
-#' model_titanic_rf <- randomForest(survived == "yes" ~ gender + age + class + embarked +
-#'                                  fare + sibsp + parch,  data = titanic)
+#'
+#' model_titanic_rf <- randomForest(survived ~.,  data = titanic_imputed)
+#'
 #' explain_titanic_rf <- explain(model_titanic_rf,
-#'                               data = titanic[,-9],
-#'                               y = titanic$survived == "yes",
+#'                               data = titanic_imputed[,-8],
+#'                               y = titanic_imputed[,8],
 #'                               label = "rf")
 #'
-#' selected_passanger <- select_sample(titanic, n = 1, seed = 123)
+#' selected_passanger <- select_sample(titanic_imputed, n = 1, seed = 123)
 #' cp_rf <- ceteris_paribus(explain_titanic_rf, selected_passanger)
 #'
 #' plot(cp_rf, variable_type = "categorical")
 #' describe(cp_rf, variables = "class", label = "the predicted probability")
-#' }
+#'
 #' @export
 #' @rdname describe
 describe <- function(x, ...)
@@ -220,6 +218,7 @@ describe_ceteris_paribus_factor <- function(x,
                            label," estimated by ", model_name, " is equal to ",
                            round(baseline_prediction,3), ".")
 
+
     argumentation <- ifelse((is.null(arguments_increasing) | is.null(arguments_decreasing)),
                             paste0("Model's prediction would ", arguments_increasing,
                                    arguments_decreasing, ".\n",
@@ -262,9 +261,8 @@ describe_ceteris_paribus_continuous <- function(x,
 
   baseline_prediction <- attr(x, "observations")[1,'_yhat_']
 
-  introduction <- paste0(model_name, " predicts that for the selected instance",
-                         " predicts that ", value, ", ", label,
-                         " is equal to ", round(baseline_prediction, 3), ".")
+  introduction <- paste0(model_name," predicts that for the selected instance", value, ", ",
+                         label, " is equal to ", round(baseline_prediction, 3))
 
   # prefix
   max_name <- df[which.max(df$`_yhat_`), variables]

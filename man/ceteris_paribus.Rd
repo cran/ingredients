@@ -33,7 +33,7 @@ If NULL then all variables from the validation data will be used.}
 \item{variable_splits}{named list of splits for variables, in most cases created with \code{\link{calculate_variable_split}}.
 If NULL then it will be calculated based on validation data available in the \code{explainer}.}
 
-\item{grid_points}{number of points for profile. Will be passed to \code{\link{calculate_variable_split}}.}
+\item{grid_points}{maximum number of points for profile calculations. Note that the finaln number of points may be lower than \code{grid_points}, eg. if there is not enough unique values for a given variable. Will be passed to \code{\link{calculate_variable_split}}.}
 
 \item{data}{validation dataset. It will be extracted from \code{x} if it's an explainer
 NOTE: It is best when target variable is not present in the \code{data}}
@@ -56,16 +56,17 @@ Find more details in \href{https://pbiecek.github.io/PM_VEE/ceterisParibus.html}
 }
 \examples{
 library("DALEX")
+# smaller data, quicker example
+titanic_small <- select_sample(titanic_imputed, n = 500, seed = 1313)
 
-titanic_small <- titanic_imputed[, c(1,2,6,9)]
-
-model_titanic_glm <- glm(survived == "yes" ~ gender + age + fare,
+# build a model
+model_titanic_glm <- glm(survived ~ gender + age + fare,
                          data = titanic_small,
                          family = "binomial")
 
 explain_titanic_glm <- explain(model_titanic_glm,
-                               data = titanic_small[,-4],
-                               y = titanic_small$survived == "yes",
+                               data = titanic_small[,-8],
+                               y = titanic_small[,8],
                                verbose = FALSE)
 
 cp_rf <- ceteris_paribus(explain_titanic_glm, titanic_small[1,])
@@ -75,16 +76,14 @@ plot(cp_rf, variables = "age")
 
 \donttest{
 library("randomForest")
-model_titanic_rf <- randomForest(survived ~ gender + age + class + embarked +
-                                 fare + sibsp + parch,  data = titanic_imputed)
+model_titanic_rf <- randomForest(survived ~.,  data = titanic_imputed)
 
 
 explain_titanic_rf <- explain(model_titanic_rf,
-                              data = titanic_imputed[,-9],
-                              y = titanic_imputed$survived,
+                              data = titanic_imputed[,-8],
+                              y = titanic_imputed[,8],
                               label = "Random Forest v7",
-                              verbose = FALSE,
-                              precalculate = FALSE)
+                              verbose = FALSE)
 
 # select few passangers
 selected_passangers <- select_sample(titanic_imputed, n = 20)

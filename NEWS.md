@@ -1,3 +1,25 @@
+ingredients 0.4
+---------------------------------------------------------------
+* CRAN release
+
+ingredients 0.3.12
+---------------------------------------------------------------
+* `aspect_importance` is moved to `DALEXtra` ([#66](https://github.com/ModelOriented/ingredients/issues/66))
+* examples are updated in order to reflect changes in `titanic_imputed` from `DALEX` ([#65](https://github.com/ModelOriented/ingredients/issues/65))
+
+
+ingredients 0.3.11
+---------------------------------------------------------------
+* modified `plot.aspect_importance` - it can plot more than single figure  
+* modified `triplot`, `plot.aspect_importance` and `plot_group_variables` to add more clarity in plots and allow some parameterization
+
+
+ingredients 0.3.10
+---------------------------------------------------------------
+* added `triplot` function that illustrates hierarchical `aspect_importance()` groupings
+* changes in `aspect_importance()` functions
+* added back the vigniette for `aspect_importance()`
+
 ingredients 0.3.9
 ---------------------------------------------------------------
 * change `only_numerical` parameter to `variable_type` in functions aggregated_profiles(),
@@ -14,7 +36,7 @@ ingredients 0.3.7
 
 ingredients 0.3.6
 ----------------------------------------------------------------
-* a new verion of `lime` is implemented in the `lime()`/`aspect_importance()` function.
+* a new version of `lime` is implemented in the `lime()`/`aspect_importance()` function.
 * Kasia Pekala and Huber Baniecki are added as contributors.
 
 ingredients 0.3.5
