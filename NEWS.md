@@ -1,3 +1,24 @@
+ingredients 0.5.0
+---------------------------------------------------------------
+* `feature_importance` now does `15` permutations on each variable by default. Use the `B` argument to change this number
+* added boxplots to `plot.feature_importance` and `plotD3.feature_importance` that showcase the permutation data
+* in `aggregate_profiles`: preserve `_x_` column factor order and sort its values [#82](https://github.com/ModelOriented/ingredients/issues/82)
+
+ingredients 0.4.2
+---------------------------------------------------------------
+* `aggregate_profiles` use now gaussian kernel smoothing. Use the `span` argument for fine control over this parameter ([#79](https://github.com/ModelOriented/ingredients/issues/79))
+* change `variable_type` and `variables` arguments usage   in the 
+`aggregate_profiles`, `plot.ceteris_paribus` and `plotD3.ceteris_paribus`
+* remove `variable_type` argument from `plotD3.aggregated_profiles`
+(now the same as in `plot.aggregated_profiles`)
+* Kasia Pekala is moved as contributor to the `DALEXtra` as `aspect_importance` is moved to `DALEXtra` as well
+([See v0.3.12 changelog](https://modeloriented.github.io/ingredients/news/index.html#ingredients-0-3-12))
+* added Travis-CI for OSX
+
+ingredients 0.4.1
+---------------------------------------------------------------
+* fixed rounding problem in the describe function ([#76](https://github.com/ModelOriented/ingredients/issues/76))
+
 ingredients 0.4
 ---------------------------------------------------------------
 * CRAN release
@@ -27,7 +48,7 @@ cluster_profiles(), plot() and others, as requested in #15
 
 ingredients 0.3.8
 ----------------------------------------------------------------
-* Natural language description generated with `describe()` function for `ceteris_paribus()`, `feature_importance()` and `aggregated_profiles()` explanations. 
+* Natural language description generated with `describe()` function for `ceteris_paribus()`, `feature_importance()` and `aggregate_profiles()` explanations. 
 
 
 ingredients 0.3.7

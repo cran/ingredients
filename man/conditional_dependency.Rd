@@ -10,17 +10,30 @@
 \usage{
 conditional_dependency(x, ...)
 
-\method{conditional_dependency}{explainer}(x, variables = NULL,
-  N = 500, variable_splits = NULL, grid_points = 101, ...,
-  variable_type = "numerical")
+\method{conditional_dependency}{explainer}(
+  x,
+  variables = NULL,
+  N = 500,
+  variable_splits = NULL,
+  grid_points = 101,
+  ...,
+  variable_type = "numerical"
+)
 
-\method{conditional_dependency}{default}(x, data,
-  predict_function = predict, label = class(x)[1], variables = NULL,
-  N = 500, variable_splits = NULL, grid_points = 101, ...,
-  variable_type = "numerical")
+\method{conditional_dependency}{default}(
+  x,
+  data,
+  predict_function = predict,
+  label = class(x)[1],
+  variables = NULL,
+  N = 500,
+  variable_splits = NULL,
+  grid_points = 101,
+  ...,
+  variable_type = "numerical"
+)
 
-\method{conditional_dependency}{ceteris_paribus_explainer}(x, ...,
-  variables = NULL)
+\method{conditional_dependency}{ceteris_paribus_explainer}(x, ..., variables = NULL)
 
 local_dependency(x, ...)
 }
@@ -58,7 +71,7 @@ Conditional Dependency Profiles (aka Local Profiles) average localy Ceteris Pari
 Function 'conditional_dependency' calls 'ceteris_paribus' and then 'aggregate_profiles'.
 }
 \details{
-Find more detailes in \href{https://pbiecek.github.io/PM_VEE/conditionalProfiles.html}{Local Dependency Profiles Chapter}.
+Find more detailes in the \href{https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html}{Accumulated Local Dependency Chapter}.
 }
 \examples{
 library("DALEX")
@@ -90,7 +103,7 @@ cdp_rf <- conditional_dependency(explain_titanic_rf, N = 200, variable_type = "n
 plot(cdp_rf)
 
 cdp_rf <- conditional_dependency(explain_titanic_rf, N = 200, variable_type = "categorical")
-plotD3(cdp_rf, variable_type = "categorical", label_margin = 80, scale_plot = TRUE)
+plotD3(cdp_rf, label_margin = 80, scale_plot = TRUE)
 }
 
 }

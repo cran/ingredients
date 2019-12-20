@@ -58,7 +58,7 @@
 #' plot(adp_rf)
 #'
 #' adp_rf <- accumulated_dependency(explain_titanic_rf, N = 200, variable_type = "categorical")
-#' plotD3(adp_rf, variable_type = "categorical", label_margin = 80, scale_plot = TRUE)
+#' plotD3(adp_rf, label_margin = 80, scale_plot = TRUE)
 #' }
 #'
 #' @export
@@ -121,7 +121,7 @@ accumulated_dependency.default <- function(x,
                                 variable_splits = variable_splits,
                                 label = label, ...)
 
-  aggregate_profiles(cp, variables = variables, type = "accumulated", variable_type = variable_type)
+  aggregate_profiles(cp, variables = variables, type = "accumulated", variable_type = variable_type, ...)
 }
 
 

@@ -3,7 +3,7 @@
 #' Conditional Dependency Profiles (aka Local Profiles) average localy Ceteris Paribus Profiles.
 #' Function 'conditional_dependency' calls 'ceteris_paribus' and then 'aggregate_profiles'.
 #'
-#' Find more detailes in \href{https://pbiecek.github.io/PM_VEE/conditionalProfiles.html}{Local Dependency Profiles Chapter}.
+#' Find more detailes in the \href{https://pbiecek.github.io/PM_VEE/accumulatedLocalProfiles.html}{Accumulated Local Dependency Chapter}.
 #'
 #' @param x an explainer created with function \code{DALEX::explain()}, an object of the class \code{ceteris_paribus_explainer}
 #' or a model to be explained.
@@ -55,7 +55,7 @@
 #' plot(cdp_rf)
 #'
 #' cdp_rf <- conditional_dependency(explain_titanic_rf, N = 200, variable_type = "categorical")
-#' plotD3(cdp_rf, variable_type = "categorical", label_margin = 80, scale_plot = TRUE)
+#' plotD3(cdp_rf, label_margin = 80, scale_plot = TRUE)
 #' }
 #'
 #' @export
@@ -119,7 +119,7 @@ conditional_dependency.default <- function(x,
                                 variable_splits = variable_splits,
                                 label = label, ...)
 
-  conditional_dependency.ceteris_paribus_explainer(cp, variables = variables, variable_type = variable_type)
+  conditional_dependency.ceteris_paribus_explainer(cp, variables = variables, variable_type = variable_type, ...)
 }
 
 

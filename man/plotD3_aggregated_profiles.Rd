@@ -4,10 +4,18 @@
 \alias{plotD3.aggregated_profiles_explainer}
 \title{Plots Aggregated Ceteris Paribus Profiles in D3 with r2d3 Package.}
 \usage{
-\method{plotD3}{aggregated_profiles_explainer}(x, ..., size = 2,
-  alpha = 1, color = "#46bac2", variable_type = "numerical",
-  facet_ncol = 2, scale_plot = FALSE, variables = NULL,
-  chart_title = "Aggregated Profiles", label_margin = 60)
+\method{plotD3}{aggregated_profiles_explainer}(
+  x,
+  ...,
+  size = 2,
+  alpha = 1,
+  color = "#46bac2",
+  facet_ncol = 2,
+  scale_plot = FALSE,
+  variables = NULL,
+  chart_title = "Aggregated Profiles",
+  label_margin = 60
+)
 }
 \arguments{
 \item{x}{a aggregated profiles explainer produced with function \code{aggregate_profiles()}}
@@ -19,9 +27,6 @@
 \item{alpha}{a numeric between \code{0} and \code{1}. Opacity of lines}
 
 \item{color}{a character.  Set line/bar color}
-
-\item{variable_type}{a character. If "numerical" then only numerical variables will be plotted.
-If "categorical" then only categorical variables will be plotted.}
 
 \item{facet_ncol}{number of columns for the \code{\link[ggplot2]{facet_wrap}}}
 
@@ -68,12 +73,12 @@ pdp_rf_c$`_label_` <- "RF_conditional"
 pdp_rf_a <- aggregate_profiles(cp_rf, type = "accumulated", variable_type = "numerical")
 pdp_rf_a$`_label_` <- "RF_accumulated"
 
-plotD3(pdp_rf_p, pdp_rf_c, pdp_rf_a, variable_type = "numerical", scale_plot = TRUE)
+plotD3(pdp_rf_p, pdp_rf_c, pdp_rf_a, scale_plot = TRUE)
 
 pdp <- aggregate_profiles(cp_rf, type = "partial", variable_type = "categorical")
 pdp$`_label_` <- "RF_partial"
 
-plotD3(pdp, variables = c("gender","class"), variable_type = "categorical", label_margin = 70)
+plotD3(pdp, variables = c("gender","class"), label_margin = 70)
 
 }
 \references{

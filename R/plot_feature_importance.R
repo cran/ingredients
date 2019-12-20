@@ -14,6 +14,7 @@
 #' @param ... other explainers that shall be plotted together
 #' @param max_vars maximum number of variables that shall be presented for for each model.
 #' By default \code{NULL} what means all variables
+#' @param show_boxplots logical if \code{TRUE} (default) boxplot will be plotted to show permutation data.
 #' @param bar_width width of bars. By default \code{10}
 #'
 #' @importFrom stats model.frame reorder
@@ -88,8 +89,34 @@
 #' }
 #'
 #' @export
-plot.feature_importance_explainer <- function(x, ..., max_vars = NULL, bar_width = 10) {
+plot.feature_importance_explainer <- function(x, ..., max_vars = NULL, show_boxplots = TRUE, bar_width = 10) {
+
   dfl <- c(list(x), list(...))
+
+  # add boxplot data
+  if (show_boxplots) {
+    dfl <- lapply(dfl, function(x) {
+      result <- data.frame(
+        min = tapply(x$dropout_loss, x$variable, min, na.rm = TRUE),
+        q1 = tapply(x$dropout_loss, x$variable, quantile, 0.25, na.rm = TRUE),
+        median = tapply(x$dropout_loss, x$variable, median, na.rm = TRUE),
+        q3 = tapply(x$dropout_loss, x$variable, quantile, 0.75, na.rm = TRUE),
+        max = tapply(x$dropout_loss, x$variable, max, na.rm = TRUE)
+      )
+
+      result$min <- as.numeric(result$min)
+      result$q1 <- as.numeric(result$q1)
+      result$median <- as.numeric(result$median)
+      result$q3 <- as.numeric(result$q3)
+      result$max <- as.numeric(result$max)
+
+      merge(x[x$permutation == 0,], cbind(rownames(result),result), by.x = "variable", by.y = "rownames(result)")
+    })
+  } else {
+    dfl <- lapply(dfl, function(x) {
+      x[x$permutation == 0,]
+    })
+  }
 
   # combine all explainers in a single frame
   expl_df <- do.call(rbind, dfl)
@@ -111,21 +138,31 @@ plot.feature_importance_explainer <- function(x, ..., max_vars = NULL, bar_width
     trimmed_parts <- lapply(unique(ext_expl_df$label), function(label) {
       tmp <- ext_expl_df[ext_expl_df$label == label, ]
       tmp[tail(order(tmp$dropout_loss.x), max_vars), ]
-    })
+    });
     ext_expl_df <- do.call(rbind, trimmed_parts)
-  }
+  };
 
-  variable <- dropout_loss.x <- dropout_loss.y <- label <- dropout_loss <- NULL
+  variable <- q1 <- q3 <- dropout_loss.x <- dropout_loss.y <- label <- dropout_loss <- NULL
   nlabels <- length(unique(bestFits$label))
 
   # plot it
-  ggplot(ext_expl_df, aes(variable, ymin = dropout_loss.y, ymax = dropout_loss.x, color = label)) +
-    geom_hline(data = bestFits, aes(yintercept = dropout_loss, color = label), lty= 3) +
-    geom_linerange(size = bar_width) + coord_flip() +
-    scale_color_manual(values = colors_discrete_drwhy(nlabels)) +
-    facet_wrap(~label, ncol = 1, scales = "free_y") + theme_drwhy_vertical() +
-    theme(legend.position = "none") +
-    ylab("Drop-out loss") + xlab("")
+  pl <- ggplot(ext_expl_df, aes(variable, ymin = dropout_loss.y, ymax = dropout_loss.x, color = label)) +
+          geom_hline(data = bestFits, aes(yintercept = dropout_loss, color = label), lty= 3) +
+          geom_linerange(size = bar_width)
+
+  if (show_boxplots) {
+    pl <- pl +
+      geom_boxplot(aes(ymin = min, lower = q1, middle = median, upper = q3, ymax = max),
+                   stat = "identity", fill = "#371ea3", color = "#371ea3", width = 0.25)
+  }
+
+  # facets have fixed space, can be resolved with ggforce https://github.com/tidyverse/ggplot2/issues/2933
+
+  pl + coord_flip() +
+      scale_color_manual(values = colors_discrete_drwhy(nlabels)) +
+      facet_wrap(~label, ncol = 1, scales = "free_y") + theme_drwhy_vertical() +
+      theme(legend.position = "none") +
+      ylab("Drop-out loss") + xlab("")
 
 }
 

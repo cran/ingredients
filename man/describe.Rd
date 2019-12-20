@@ -8,18 +8,29 @@
 \alias{describe.feature_importance_explainer}
 \title{Natural language description of feature importance explainer}
 \usage{
-\method{describe}{partial_dependency_explainer}(x,
-  nonsignificance_treshold = 0.15, ..., display_values = FALSE,
-  display_numbers = FALSE, variables = NULL, label = "prediction")
+\method{describe}{partial_dependency_explainer}(
+  x,
+  nonsignificance_treshold = 0.15,
+  ...,
+  display_values = FALSE,
+  display_numbers = FALSE,
+  variables = NULL,
+  label = "prediction"
+)
 
 describe(x, ...)
 
-\method{describe}{ceteris_paribus_explainer}(x,
-  nonsignificance_treshold = 0.15, ..., display_values = FALSE,
-  display_numbers = FALSE, variables = NULL, label = "prediction")
+\method{describe}{ceteris_paribus_explainer}(
+  x,
+  nonsignificance_treshold = 0.15,
+  ...,
+  display_values = FALSE,
+  display_numbers = FALSE,
+  variables = NULL,
+  label = "prediction"
+)
 
-\method{describe}{feature_importance_explainer}(x,
-  nonsignificance_treshold = 0.15, ...)
+\method{describe}{feature_importance_explainer}(x, nonsignificance_treshold = 0.15, ...)
 }
 \arguments{
 \item{x}{a ceteris paribus explanation produced with function \code{ceteris_paribus()}}
@@ -68,6 +79,7 @@ The current design of DALEX explainer does not allow for displaying variables va
 library("DALEX")
 library("randomForest")
 
+\donttest{
 model_titanic_rf <- randomForest(survived ~.,  data = titanic_imputed)
 
 explain_titanic_rf <- explain(model_titanic_rf,
@@ -79,10 +91,12 @@ selected_passangers <- select_sample(titanic_imputed, n = 10)
 cp_rf <- ceteris_paribus(explain_titanic_rf, selected_passangers)
 pdp <- aggregate_profiles(cp_rf, type = "partial", variable_type = "categorical")
 describe(pdp, variables = "gender")
+}
 
 library("DALEX")
 library("randomForest")
 
+\donttest{
 model_titanic_rf <- randomForest(survived ~.,  data = titanic_imputed)
 
 explain_titanic_rf <- explain(model_titanic_rf,
@@ -95,7 +109,7 @@ cp_rf <- ceteris_paribus(explain_titanic_rf, selected_passanger)
 
 plot(cp_rf, variable_type = "categorical")
 describe(cp_rf, variables = "class", label = "the predicted probability")
-
+}
 library("DALEX")
 
 lm_model <- lm(m2.price~., data = apartments)

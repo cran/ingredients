@@ -4,9 +4,17 @@
 \alias{plot.ceteris_paribus_2d_explainer}
 \title{Plot Ceteris Paribus 2D Explanations}
 \usage{
-\method{plot}{ceteris_paribus_2d_explainer}(x, ..., facet_ncol = NULL,
-  add_raster = TRUE, add_contour = TRUE, bins = 3,
-  add_observation = TRUE, pch = "+", size = 6)
+\method{plot}{ceteris_paribus_2d_explainer}(
+  x,
+  ...,
+  facet_ncol = NULL,
+  add_raster = TRUE,
+  add_contour = TRUE,
+  bins = 3,
+  add_observation = TRUE,
+  pch = "+",
+  size = 6
+)
 }
 \arguments{
 \item{x}{a ceteris paribus explainer produced with the \code{ceteris_paribus_2d()} function}
@@ -47,6 +55,7 @@ explainer_rf <- explain(apartments_rf_model,
 new_apartment <- apartments_test[1,]
 new_apartment
 
+\donttest{
 wi_rf_2d <- ceteris_paribus_2d(explainer_rf, observation = new_apartment)
 head(wi_rf_2d)
 
@@ -54,7 +63,7 @@ plot(wi_rf_2d)
 plot(wi_rf_2d, add_contour = FALSE)
 plot(wi_rf_2d, add_observation = FALSE)
 plot(wi_rf_2d, add_raster = FALSE)
-\donttest{
+
 # HR data
 model <- randomForest(status ~ gender + age + hours + evaluation + salary, data = HR)
 
