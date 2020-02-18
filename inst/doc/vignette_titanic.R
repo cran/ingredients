@@ -33,16 +33,16 @@ head(fi_rf)
 plot(fi_rf)
 
 ## -----------------------------------------------------------------------------
-pp_age  <- partial_dependency(explain_titanic_rf, variables =  c("age", "fare"))
+pp_age  <- partial_dependence(explain_titanic_rf, variables =  c("age", "fare"))
 head(pp_age)
 plot(pp_age)
 
 ## -----------------------------------------------------------------------------
-cp_age  <- conditional_dependency(explain_titanic_rf, variables =  c("age", "fare"))
+cp_age  <- conditional_dependence(explain_titanic_rf, variables =  c("age", "fare"))
 plot(cp_age)
 
 ## -----------------------------------------------------------------------------
-ap_age  <- accumulated_dependency(explain_titanic_rf, variables =  c("age", "fare"))
+ap_age  <- accumulated_dependence(explain_titanic_rf, variables =  c("age", "fare"))
 plot(ap_age)
 
 ## -----------------------------------------------------------------------------

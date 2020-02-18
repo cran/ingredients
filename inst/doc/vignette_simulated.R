@@ -38,28 +38,28 @@ plot(cp_model) +
   ggtitle("Ceteris Paribus profiles")
 
 ## -----------------------------------------------------------------------------
-pd_model <- partial_dependency(explain_the_model, variables = c("x1", "x2"))
+pd_model <- partial_dependence(explain_the_model, variables = c("x1", "x2"))
 pd_model$`_label_` = "PDP"
 
-cd_model <- conditional_dependency(explain_the_model, variables = c("x1", "x2"))
+cd_model <- conditional_dependence(explain_the_model, variables = c("x1", "x2"))
 cd_model$`_label_` = "CDP 0.25"
 
-ad_model <- accumulated_dependency(explain_the_model, variables = c("x1", "x2"))
+ad_model <- accumulated_dependence(explain_the_model, variables = c("x1", "x2"))
 ad_model$`_label_` = "ALE 0.25"
 
 plot(ad_model, cd_model, pd_model) +
   ggtitle("Feature effects - PDP, CDP, ALE")
 
-cd_model_1 <- conditional_dependency(explain_the_model, variables = c("x1", "x2"), span = 0.1)
+cd_model_1 <- conditional_dependence(explain_the_model, variables = c("x1", "x2"), span = 0.1)
 cd_model_1$`_label_` = "CDP 0.1"
 
-cd_model_5 <- conditional_dependency(explain_the_model, variables = c("x1", "x2"), span = 0.5)
+cd_model_5 <- conditional_dependence(explain_the_model, variables = c("x1", "x2"), span = 0.5)
 cd_model_5$`_label_` = "CDP 0.5"
 
-ad_model_1 <- accumulated_dependency(explain_the_model, variables = c("x1", "x2"), span = 0.5)
+ad_model_1 <- accumulated_dependence(explain_the_model, variables = c("x1", "x2"), span = 0.5)
 ad_model_1$`_label_` = "ALE 0.1"
 
-ad_model_5 <- accumulated_dependency(explain_the_model, variables = c("x1", "x2"), span = 0.5)
+ad_model_5 <- accumulated_dependence(explain_the_model, variables = c("x1", "x2"), span = 0.5)
 ad_model_5$`_label_` = "ALE 0.5"
 
 plot(ad_model, cd_model, pd_model, cd_model_1, cd_model_5, ad_model_1, ad_model_5) +
@@ -72,14 +72,14 @@ df$x3 <- factor(sign(df$x2))
 explain_the_model$data = df
 
 # PDP in groups
-pd_model_groups <- partial_dependency(explain_the_model, 
+pd_model_groups <- partial_dependence(explain_the_model, 
                                       variables = c("x1", "x2"), 
                                       groups = "x3")
 plot(pd_model_groups) +
-  ggtitle("Partial Dependency")
+  ggtitle("Partial Dependence")
 
 # ALE in groups
-ad_model_groups <- accumulated_dependency(explain_the_model, 
+ad_model_groups <- accumulated_dependence(explain_the_model, 
                                       variables = c("x1", "x2"), 
                                       groups = "x3")
 plot(ad_model_groups) +
@@ -87,11 +87,11 @@ plot(ad_model_groups) +
 
 
 # CDP in groups
-cd_model_groups <- conditional_dependency(explain_the_model, 
+cd_model_groups <- conditional_dependence(explain_the_model, 
                                       variables = c("x1", "x2"), 
                                       groups = "x3")
 plot(cd_model_groups) +
-  ggtitle("Conditional Dependency")
+  ggtitle("Conditional Dependence")
 
 ## -----------------------------------------------------------------------------
 sessionInfo()

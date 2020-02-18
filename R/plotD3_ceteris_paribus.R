@@ -5,7 +5,7 @@
 #' It uses output from \code{\link{ceteris_paribus}} function.
 #' Various parameters help to decide what should be plotted, profiles, aggregated profiles, points or rugs.
 #'
-#' Find more detailes in \href{https://pbiecek.github.io/PM_VEE/ceterisParibus.html}{Ceteris Paribus Chapter}.
+#' Find more detailes in \href{https://pbiecek.github.io/ema/ceterisParibus.html}{Ceteris Paribus Chapter}.
 #'
 #' @param x a ceteris paribus explainer produced with function \code{ceteris_paribus()}
 #' @param ... other explainers that shall be plotted together
@@ -85,13 +85,11 @@ plotD3.ceteris_paribus_explainer <- function(x, ..., size = 2, alpha = 1,
 
   if (variable_type == "numerical") {
     vnames <- names(which(is_numeric))
-    all_profiles$`_x_` <- 0
 
     # there are no numerical variables
     if (length(vnames) == 0) {
       # change to categorical
       variable_type <- "categorical"
-      all_profiles$`_x_` <- ""
       # send message
       message("'variable_type' changed to 'categorical' due to lack of numerical variables.")
       # take all
@@ -101,7 +99,6 @@ plotD3.ceteris_paribus_explainer <- function(x, ..., size = 2, alpha = 1,
     }
   } else {
     vnames <- names(which(!is_numeric))
-    all_profiles$`_x_` <- ""
 
     # there are variables selected
     if (!is.null(variables)) {
