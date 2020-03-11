@@ -1,6 +1,6 @@
 Package: ingredients
 Title: Effects and Importances of Model Ingredients
-Version: 1.0
+Version: 1.1
 Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com",
                   role = c("aut", "cre"),
                   comment = c(ORCID = "0000-0001-8423-1823")),
@@ -19,7 +19,7 @@ Description: Collection of tools for assessment of feature importance and featur
     generic plotD3() for interactive, D3 based explanations, and
     generic describe() for explanations in natural language.
     The package 'ingredients' is a part of the 'DrWhy.AI' universe (Biecek 2018) <arXiv:1806.08915>.
-Depends: R (>= 3.0)
+Depends: R (>= 3.5)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -32,10 +32,10 @@ URL: https://ModelOriented.github.io/ingredients/,
 BugReports: https://github.com/ModelOriented/ingredients/issues
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2020-02-17 21:34:44 UTC; pbiecek
+Packaged: 2020-03-10 19:58:43 UTC; pbiecek
 Author: Przemyslaw Biecek [aut, cre] (<https://orcid.org/0000-0001-8423-1823>),
   Hubert Baniecki [aut] (<https://orcid.org/0000-0001-6661-5364>),
   Adam Izdebski [aut]
 Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-02-18 09:20:02 UTC
+Date/Publication: 2020-03-11 06:30:09 UTC
