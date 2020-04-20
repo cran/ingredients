@@ -3,12 +3,13 @@
 #' @description This is an aesthetically efficient implementation of the
 #'   \link[gridExtra]{grid.arrange}.
 #'
-#' @param ... (`ggplot`) ggplot objects to combine.
-#' @param byrow (`logical`) if FALSE (the default) the plots are bind by
+#' @param ... (\code{ggplot}) ggplot objects to combine.
+#' @param byrow (\code{logical}) if \code{FALSE} (the default) the plots are bind by
 #'   columns, otherwise the plots are bind by rows.
 #'
-#' @return (`gtable`) A plottable object with \code{plot()}.
-#' @export
+#' @return (\code{gtable}) A plottable object with \code{plot()}.
+#'
+#' @author \url{https://github.com/harell}
 #'
 #' @examples
 #' \dontrun{
@@ -31,6 +32,8 @@
 #' bind_plots(plot(pdp_numerical), plot(pdp_categorical), byrow = FALSE)
 #' }
 #'
+#' @export
+#' @rdname bind_plots
 bind_plots <- function(..., byrow = FALSE){
     # Helper Functions --------------------------------------------------------
     extract_facets <- function(p) ggplot2::ggplot_build(p)[['layout']][['layout']]
