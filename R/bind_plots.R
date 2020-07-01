@@ -1,7 +1,7 @@
 #' @title Bind Multiple ggplot Objects
 #'
 #' @description This is an aesthetically efficient implementation of the
-#'   \link[gridExtra]{grid.arrange}.
+#'   \code{\link[gridExtra:arrangeGrob]{grid.arrange}}
 #'
 #' @param ... (\code{ggplot}) ggplot objects to combine.
 #' @param byrow (\code{logical}) if \code{FALSE} (the default) the plots are bind by
@@ -12,7 +12,7 @@
 #' @author \url{https://github.com/harell}
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library("DALEX")
 #' titanic_glm <- glm(survived ~ gender + age + fare,
 #'                    data = titanic_imputed, family = "binomial")

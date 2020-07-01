@@ -16,8 +16,9 @@
 #' @param type character, type of transformation that should be applied for dropout loss.
 #' "raw" results raw drop lossess, "ratio" returns \code{drop_loss/drop_loss_full_model}
 #' while "difference" returns \code{drop_loss - drop_loss_full_model}
-#' @param n_sample number of observations that should be sampled for calculation of variable importance.
+#' @param N number of observations that should be sampled for calculation of variable importance.
 #' If \code{NULL} then variable importance will be calculated on whole dataset (no sampling).
+#' @param n_sample alias for \code{N} held for backwards compatibility. number of observations that should be sampled for calculation of variable importance.
 #' @param B integer, number of permutation rounds to perform on each variable. By default it's \code{10}.
 #' @param variables vector of variables. If \code{NULL} then variable importance will be tested for each variable from the \code{data} separately. By default \code{NULL}
 #' @param variable_groups list of variables names vectors. This is for testing joint variable importance.
@@ -27,6 +28,7 @@
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema}
 #'
 #' @return an object of the class \code{feature_importance}
+#' @importFrom methods hasArg
 #'
 #' @examples
 #' library("DALEX")
@@ -38,8 +40,10 @@
 #'                                data = titanic_imputed[,-8],
 #'                                y = titanic_imputed[,8])
 #'
-#' fi_glm <- feature_importance(explain_titanic_glm)
+#' fi_glm <- feature_importance(explain_titanic_glm, B = 1)
 #' plot(fi_glm)
+#'
+#' \donttest{
 #'
 #' fi_glm_joint1 <- feature_importance(explain_titanic_glm,
 #'                    variable_groups = list("demographics" = c("gender", "age"),
@@ -57,10 +61,7 @@
 #'
 #' plot(fi_glm_joint2, fi_glm_joint1)
 #'
-#'
-#' \donttest{
 #' library("randomForest")
-#'
 #' model_titanic_rf <- randomForest(survived ~.,  data = titanic_imputed)
 #'
 #' explain_titanic_rf <- explain(model_titanic_rf,
@@ -115,6 +116,7 @@ feature_importance.explainer <- function(x,
                                          B = 10,
                                          variables = NULL,
                                          variable_groups = NULL,
+                                         N = n_sample,
                                          label = NULL) {
   if (is.null(x$data)) stop("The feature_importance() function requires explainers created with specified 'data' parameter.")
   if (is.null(x$y)) stop("The feature_importance() function requires explainers created with specified 'y' parameter.")
@@ -135,6 +137,7 @@ feature_importance.explainer <- function(x,
                              loss_function = loss_function,
                              label = label,
                              type = type,
+                             N = N,
                              n_sample = n_sample,
                              B = B,
                              variables = variables,
@@ -156,7 +159,14 @@ feature_importance.default <- function(x,
                                        n_sample = NULL,
                                        B = 10,
                                        variables = NULL,
+                                       N = n_sample,
                                        variable_groups = NULL) {
+  # start: checks for arguments
+##  if (is.null(N) & methods::hasArg("n_sample")) {
+##    warning("n_sample is deprecated, please update ingredients and DALEX packages to use N instead")
+##    N <- list(...)[["n_sample"]]
+##  }
+
   if (!is.null(variable_groups)) {
     if (!inherits(variable_groups, "list")) stop("variable_groups should be of class list")
 
@@ -171,7 +181,7 @@ feature_importance.default <- function(x,
   type <- match.arg(type)
   B <- max(1, round(B))
 
-  # Adding variable set name when not specified
+  # Adding names for variable_groups if not specified
   if (!is.null(variable_groups) && is.null(names(variable_groups))) {
     names(variable_groups) <- sapply(variable_groups, function(variable_set) {
       paste0(variable_set, collapse = "; ")
@@ -189,18 +199,22 @@ feature_importance.default <- function(x,
     variables <- variable_groups
   }
 
+  # start: actual calculations
   # one permutation round: subsample data, permute variables and compute losses
   sampled_rows <- 1:nrow(data)
   loss_after_permutation <- function() {
-    if (!is.null(n_sample)) {
-      sampled_rows <- sample.int(nrow(data), n_sample, replace = TRUE)
+    if (!is.null(N)) {
+      if (N < nrow(data)) {
+        # sample N points
+        sampled_rows <- sample(1:nrow(data), N)
+      }
     }
     sampled_data <- data[sampled_rows, ]
     observed <- y[sampled_rows]
     # loss on the full model or when outcomes are permuted
     loss_full <- loss_function(observed, predict_function(x, sampled_data))
     loss_baseline <- loss_function(sample(observed), predict_function(x, sampled_data))
-    # loss upon dropping single variables (or single groups)
+    # loss upon dropping a single variable (or a single group)
     loss_features <- sapply(variables, function(variables_set) {
       ndf <- sampled_data
       ndf[, variables_set] <- ndf[sample(1:nrow(ndf)), variables_set]
@@ -256,6 +270,9 @@ feature_importance.default <- function(x,
 
   class(res) <- c("feature_importance_explainer", "data.frame")
 
+  if(!is.null(attr(loss_function, "loss_name"))) {
+    attr(res, "loss_name") <- attr(loss_function, "loss_name")
+  }
   res
 }
 

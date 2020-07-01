@@ -17,6 +17,7 @@ feature_importance(x, ...)
   B = 10,
   variables = NULL,
   variable_groups = NULL,
+  N = n_sample,
   label = NULL
 )
 
@@ -32,6 +33,7 @@ feature_importance(x, ...)
   n_sample = NULL,
   B = 10,
   variables = NULL,
+  N = n_sample,
   variable_groups = NULL
 )
 }
@@ -46,8 +48,7 @@ feature_importance(x, ...)
 "raw" results raw drop lossess, "ratio" returns \code{drop_loss/drop_loss_full_model}
 while "difference" returns \code{drop_loss - drop_loss_full_model}}
 
-\item{n_sample}{number of observations that should be sampled for calculation of variable importance.
-If \code{NULL} then variable importance will be calculated on whole dataset (no sampling).}
+\item{n_sample}{alias for \code{N} held for backwards compatibility. number of observations that should be sampled for calculation of variable importance.}
 
 \item{B}{integer, number of permutation rounds to perform on each variable. By default it's \code{10}.}
 
@@ -56,6 +57,9 @@ If \code{NULL} then variable importance will be calculated on whole dataset (no 
 \item{variable_groups}{list of variables names vectors. This is for testing joint variable importance.
 If \code{NULL} then variable importance will be tested separately for \code{variables}.
 By default \code{NULL}. If specified then it will override \code{variables}}
+
+\item{N}{number of observations that should be sampled for calculation of variable importance.
+If \code{NULL} then variable importance will be calculated on whole dataset (no sampling).}
 
 \item{label}{name of the model. By default it's extracted from the \code{class} attribute of the model}
 
@@ -86,8 +90,10 @@ explain_titanic_glm <- explain(model_titanic_glm,
                                data = titanic_imputed[,-8],
                                y = titanic_imputed[,8])
 
-fi_glm <- feature_importance(explain_titanic_glm)
+fi_glm <- feature_importance(explain_titanic_glm, B = 1)
 plot(fi_glm)
+
+\donttest{
 
 fi_glm_joint1 <- feature_importance(explain_titanic_glm,
                    variable_groups = list("demographics" = c("gender", "age"),
@@ -105,10 +111,7 @@ fi_glm_joint2 <- feature_importance(explain_titanic_glm,
 
 plot(fi_glm_joint2, fi_glm_joint1)
 
-
-\donttest{
 library("randomForest")
-
 model_titanic_rf <- randomForest(survived ~.,  data = titanic_imputed)
 
 explain_titanic_rf <- explain(model_titanic_rf,

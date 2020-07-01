@@ -38,12 +38,11 @@
 #'                                data = titanic_imputed[,-8],
 #'                                y = titanic_imputed[,8])
 #'
-#' fi_rf <- feature_importance(explain_titanic_glm)
+#' fi_rf <- feature_importance(explain_titanic_glm, B = 1)
 #' plot(fi_rf)
 #'
 #' \donttest{
 #' library("randomForest")
-#'
 #' model_titanic_rf <- randomForest(survived ~.,  data = titanic_imputed)
 #'
 #' explain_titanic_rf <- explain(model_titanic_rf,
@@ -152,12 +151,16 @@ plot.feature_importance_explainer <- function(x, ..., max_vars = NULL, show_boxp
                    stat = "identity", fill = "#371ea3", color = "#371ea3", width = 0.25)
   }
 
+  if (!is.null(attr(x, "loss_name"))) {
+    y_lab <- paste(attr(x, "loss_name")[1], "loss after permutations")
+  } else {
+    y_lab <- "Loss function after variable's permutations"
+  }
   # facets have fixed space, can be resolved with ggforce https://github.com/tidyverse/ggplot2/issues/2933
-
   pl + coord_flip() +
       scale_color_manual(values = DALEX::colors_discrete_drwhy(nlabels)) +
       facet_wrap(~label, ncol = 1, scales = "free_y") + DALEX::theme_drwhy_vertical() +
-      ylab("Drop-out loss") + xlab("") +
+      ylab(y_lab) + xlab("") +
       labs(title = title, subtitle = subtitle) +
       theme(legend.position = "none")
 
