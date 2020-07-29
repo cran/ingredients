@@ -15,6 +15,7 @@ ceteris_paribus(x, ...)
   variables = NULL,
   variable_splits = NULL,
   grid_points = 101,
+  variable_splits_type = "quantiles",
   ...
 )
 
@@ -27,6 +28,8 @@ ceteris_paribus(x, ...)
   variables = NULL,
   variable_splits = NULL,
   grid_points = 101,
+  variable_splits_type = "quantiles",
+  variable_splits_with_obs = FALSE,
   label = class(x)[1],
   ...
 )
@@ -50,10 +53,14 @@ If NULL then it will be calculated based on validation data available in the \co
 
 \item{grid_points}{maximum number of points for profile calculations. Note that the finaln number of points may be lower than \code{grid_points}, eg. if there is not enough unique values for a given variable. Will be passed to \code{\link{calculate_variable_split}}.}
 
+\item{variable_splits_type}{how variable grids shall be calculated? Use "quantiles" (default) for percentiles or "uniform" to get uniform grid of points}
+
 \item{data}{validation dataset. It will be extracted from \code{x} if it's an explainer
 NOTE: It is best when target variable is not present in the \code{data}}
 
 \item{predict_function}{predict function. It will be extracted from \code{x} if it's an explainer}
+
+\item{variable_splits_with_obs}{if \code{TRUE} then all values in \code{new_observation} will be included in \code{variable_splits}}
 
 \item{label}{name of the model. By default it's extracted from the \code{class} attribute of the model}
 }

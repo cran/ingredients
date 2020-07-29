@@ -6,7 +6,7 @@
 #'
 #' @param x a ceteris paribus explainer produced with function \code{aggregate_profiles()}
 #' @param ... other explainers that shall be plotted together
-#' @param color a character. Either name of a color or name of a variable that should be used for coloring
+#' @param color a character. Either name of a color, or hex code for a color, or \code{_label_} if models shall be colored, or \code{_ids_} if instances shall be colored
 #' @param size a numeric. Size of lines to be plotted
 #' @param alpha a numeric between \code{0} and \code{1}. Opacity of lines
 #' @param facet_ncol number of columns for the \code{\link[ggplot2]{facet_wrap}}
@@ -104,7 +104,7 @@ plot.aggregated_profiles_explainer <- function(x, ...,
   # what kind of plot shall be plotted?
   # numerical
   if (is_color_a_variable & is_x_numeric) {
-    nlabels <- length(unique(aggregated_profiles$`_label_`))
+    nlabels <- length(unique(aggregated_profiles[,color]))
     res <- res +
       geom_line(aes_string(y = "`_yhat_`", color = paste0("`",color,"`")), size = size, alpha = alpha) +
       scale_color_manual(name = "", values = DALEX::colors_discrete_drwhy(nlabels))
@@ -116,7 +116,7 @@ plot.aggregated_profiles_explainer <- function(x, ...,
   # what kind of plot shall be plotted?
   # categorical
   if (is_color_a_variable & !is_x_numeric) {
-    nlabels <- length(unique(aggregated_profiles$`_label_`))
+    nlabels <- length(unique(aggregated_profiles[,color]))
     res <- res +
       geom_col(aes_string(y = "`_yhat_`", fill = paste0("`",color,"`")), size = size, alpha = alpha, position = "dodge") +
       scale_fill_manual(name = "", values = DALEX::colors_discrete_drwhy(nlabels))

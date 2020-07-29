@@ -22,6 +22,8 @@
 #' If NULL then it will be calculated based on validation data available in the \code{explainer}.
 #' @param grid_points maximum number of points for profile calculations. Note that the finaln number of points may be lower than \code{grid_points}, eg. if there is not enough unique values for a given variable. Will be passed to \code{\link{calculate_variable_split}}.
 #' @param label name of the model. By default it's extracted from the \code{class} attribute of the model
+#' @param variable_splits_type how variable grids shall be calculated? Use "quantiles" (default) for percentiles or "uniform" to get uniform grid of points
+#' @param variable_splits_with_obs if \code{TRUE} then all values in \code{new_observation} will be included in \code{variable_splits}
 #'
 #' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema}
 #'
@@ -82,6 +84,7 @@ ceteris_paribus.explainer <- function(x,
                                       variables = NULL,
                                       variable_splits = NULL,
                                       grid_points = 101,
+                                      variable_splits_type = "quantiles",
                                       ...) {
   # extracts model, data and predict function from the explainer
   model <- x$model
@@ -98,6 +101,7 @@ ceteris_paribus.explainer <- function(x,
                           variable_splits = variable_splits,
                           grid_points = grid_points,
                           label = label,
+                          variable_splits_type = variable_splits_type,
                           ...)
 }
 
@@ -112,6 +116,8 @@ ceteris_paribus.default <- function(x,
                                     variables = NULL,
                                     variable_splits = NULL,
                                     grid_points = 101,
+                                    variable_splits_type = "quantiles",
+                                    variable_splits_with_obs = FALSE,
                                     label = class(x)[1],
                                     ...) {
   # here one can add model and data and new observation
@@ -133,7 +139,9 @@ ceteris_paribus.default <- function(x,
     if (is.null(variables))
       variables <- colnames(data)
 
-    variable_splits <- calculate_variable_split(data, variables = variables, grid_points = grid_points)
+    variable_splits <- calculate_variable_split(data, variables = variables, grid_points = grid_points,
+                                    variable_splits_type = variable_splits_type,
+                                    new_observation = if(variable_splits_with_obs) new_observation else NA)
   }
 
   # calculate profiles

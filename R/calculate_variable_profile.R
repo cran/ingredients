@@ -67,26 +67,43 @@ calculate_variable_profile.default <- function(data, variable_splits, model, pre
 #' @param data validation dataset. Is used to determine distribution of observations.
 #' @param variables names of variables for which splits shall be calculated
 #' @param grid_points number of points used for response path
+#' @param variable_splits_type how variable grids shall be calculated? Use "quantiles" (default) for percentiles or "uniform" to get uniform grid of points
+#' @param new_observation if specified (not \code{NA}) then all values in \code{new_observation} will be included in \code{variable_splits}
 #'
 #' @return A named list with splits for selected variables
 #' @importFrom stats predict
 #'
 #' @rdname calculate_variable_split
-calculate_variable_split <- function(data, variables = colnames(data), grid_points = 101) {
+calculate_variable_split <- function(data, variables = colnames(data), grid_points = 101, variable_splits_type = "quantiles", new_observation = NA) {
   UseMethod("calculate_variable_split")
 }
 #' @rdname calculate_variable_split
-calculate_variable_split.default <- function(data, variables = colnames(data), grid_points = 101) {
+calculate_variable_split.default <- function(data, variables = colnames(data), grid_points = 101, variable_splits_type = "quantiles", new_observation = NA) {
   variable_splits <- lapply(variables, function(var) {
-    selected_column <- data[,var]
+    selected_column <- na.omit(data[,var])
     # numeric?
     if (is.numeric(selected_column)) {
       probs <- seq(0, 1, length.out = grid_points)
-      unique(quantile(selected_column, probs = probs))
+      if (variable_splits_type == "quantiles") {
+        # variable quantiles
+        selected_splits <- unique(quantile(selected_column, probs = probs))
+      } else {
+        selected_splits <- seq(min(selected_column, na.rm = TRUE), max(selected_column, na.rm = TRUE), length.out = grid_points)
+      }
+      # fixing https://github.com/ModelOriented/ingredients/issues/124
+      if (!any(is.na(new_observation)))
+        selected_splits <- sort(unique(c(selected_splits, na.omit(new_observation[,var]))))
     } else {
       # sort will change order of factors in a good way
-      sort(unique(selected_column))
+      if (any(is.na(new_observation))) {
+        selected_splits <- sort(unique(selected_column))
+      } else {
+        # fixing https://github.com/ModelOriented/ingredients/issues/124
+        selected_splits <- sort(unique(rbind(data[, var, drop = FALSE],
+                                  new_observation[, var, drop = FALSE])[,1]))
+      }
     }
+    selected_splits
   })
   names(variable_splits) <- variables
   variable_splits
