@@ -15,7 +15,7 @@
   variables = NULL,
   title = "Ceteris Paribus profile",
   subtitle = NULL,
-  categorical_type = "lines"
+  categorical_type = "profiles"
 )
 }
 \arguments{
@@ -41,7 +41,7 @@ If \code{categorical} then only categorical variables will be plotted.}
 \item{subtitle}{a character. Plot subtitle. By default \code{NULL} - then subtitle is set to "created for the XXX, YYY model",
 where XXX, YYY are labels of given explainers.}
 
-\item{categorical_type}{a character. How categorical variables shall be plotted? Either \code{"lines"} (default) or \code{"bars"}.}
+\item{categorical_type}{a character. How categorical variables shall be plotted? Either \code{"profiles"} (default) or \code{"bars"} or \code{"lines"}.}
 }
 \value{
 a \code{ggplot2} object
@@ -63,10 +63,10 @@ explain_titanic_glm <- explain(model_titanic_glm,
                                y = titanic_imputed[,8],
                                verbose = FALSE)
 
-cp_rf <- ceteris_paribus(explain_titanic_glm, titanic_imputed[1,])
-cp_rf
+cp_glm <- ceteris_paribus(explain_titanic_glm, titanic_imputed[1,])
+cp_glm
 
-plot(cp_rf, variables = "age")
+plot(cp_glm, variables = "age")
 
 \donttest{
 library("randomForest")

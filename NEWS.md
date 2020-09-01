@@ -1,3 +1,9 @@
+ingredients 2.0
+--------------------------------------------------------------
+* `plot.ceteris_paribus_explainer` now by default for categorical variables plots profiles (not lines -prev default- nor bars)
+* ALE plots are now centered around average y_hat [#126](https://github.com/ModelOriented/ingredients/issues/126)
+* colors from DrWhy color palette is used for CP [#125](https://github.com/ModelOriented/ingredients/issues/125)
+
 ingredients 1.3.1
 --------------------------------------------------------------
 * default `subtitle` value in `plot.fi` changed to `NULL` from `NA` (unification)
@@ -15,7 +21,7 @@ ingredients 1.2.0
 ---------------------------------------------------------------
 * `DALEX` is moved to Suggests as in  [#112](https://github.com/ModelOriented/ingredients/issues/112)
 * `plot_categorical_ceteris_paribus` can plot bars (again)
-* add `bind_plots` functions
+* add `bind_plots` function
 
 ingredients 1.1.0
 ---------------------------------------------------------------
