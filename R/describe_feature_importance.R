@@ -7,8 +7,11 @@
 #' @importFrom graphics plot
 #' @importFrom stats quantile
 #'
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+#'
 #' @examples
 #' library("DALEX")
+#' library("ingredients")
 #'
 #' lm_model <- lm(m2.price~., data = apartments)
 #' explainer_lm <- explain(lm_model, data = apartments[,-1], y = apartments[,1])

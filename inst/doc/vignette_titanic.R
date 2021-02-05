@@ -8,22 +8,22 @@ knitr::opts_chunk$set(
 
 ## -----------------------------------------------------------------------------
 library("DALEX")
-head(titanic)
+head(titanic_imputed)
 
 ## -----------------------------------------------------------------------------
 # prepare model
-library("randomForest")
-titanic <- na.omit(titanic)
-model_titanic_rf <- randomForest(survived == "yes" ~ gender + age + class + embarked +
-                                   fare + sibsp + parch,  data = titanic)
+library("ranger")
+model_titanic_rf <- ranger(survived ~ gender + age + class + embarked +
+                           fare + sibsp + parch,
+                           data = titanic_imputed, probability = TRUE)
 model_titanic_rf
 
 ## -----------------------------------------------------------------------------
 library("DALEX")
 explain_titanic_rf <- explain(model_titanic_rf,
-                      data = titanic[,-9],
-                      y = titanic$survived == "yes",
-                      label = "Random Forest v7")
+                              data = titanic_imputed[,-8],
+                              y = titanic_imputed[,8],
+                              label = "Random Forest")
 
 ## -----------------------------------------------------------------------------
 library("ingredients")

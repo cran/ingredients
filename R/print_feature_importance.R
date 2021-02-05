@@ -3,20 +3,22 @@
 #' @param x an explanation created with \code{\link{feature_importance}}
 #' @param ... other parameters.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema}
+#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{http://ema.drwhy.ai}
 #'
 #' @return a data frame.
 #' @importFrom stats quantile median
 #'
 #' @examples
 #' library("DALEX")
+#' library("ingredients")
 #'
 #' model_titanic_glm <- glm(survived ~ gender + age + fare,
 #'                          data = titanic_imputed, family = "binomial")
 #'
 #' explain_titanic_glm <- explain(model_titanic_glm,
 #'                                data = titanic_imputed[,-8],
-#'                                y = titanic_imputed[,8])
+#'                                y = titanic_imputed[,8],
+#'                                verbose = FALSE)
 #'
 #' fi_glm <- feature_importance(explain_titanic_glm)
 #'

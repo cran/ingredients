@@ -40,15 +40,17 @@ Various parameters help to decide what should be plotted, profiles, aggregated p
 }
 \examples{
 library("DALEX")
-library("randomForest")
+library("ingredients")
+library("ranger")
 
-rf_model <- randomForest(survived ~.,
-                         data = titanic_imputed)
+\donttest{
+rf_model <- ranger(survived ~., data = titanic_imputed, probability = TRUE)
 
 explainer_rf <- explain(rf_model,
                         data = titanic_imputed[,-8],
                         y = titanic_imputed[,8],
-                        label = "RF", verbose = FALSE)
+                        label = "ranger forest",
+                        verbose = FALSE)
 
 selected_passangers <- select_sample(titanic_imputed, n = 100)
 cp_rf <- ceteris_paribus(explainer_rf, selected_passangers)
@@ -57,6 +59,9 @@ cp_rf
 plot(cp_rf, variables = "age", color = "grey") +
 show_observations(cp_rf, variables = "age", color = "black") +
   show_rugs(cp_rf, variables = "age", color = "red")
+}
 
-
+}
+\references{
+Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 }

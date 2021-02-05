@@ -5,7 +5,7 @@
 #' Such profiles can be used to hypothesize about model results if selected variable is changed.
 #' For this reason it is also called 'What-If Profiles'.
 #'
-#' Find more details in \href{https://pbiecek.github.io/ema/ceterisParibus.html}{Ceteris Paribus Chapter}.
+#' Find more details in \href{http://ema.drwhy.ai/ceterisParibus.html}{Ceteris Paribus Chapter}.
 #'
 #' @param x an explainer created with the \code{DALEX::explain()} function, or a model to be explained.
 #' @param data validation dataset. It will be extracted from \code{x} if it's an explainer
@@ -25,13 +25,13 @@
 #' @param variable_splits_type how variable grids shall be calculated? Use "quantiles" (default) for percentiles or "uniform" to get uniform grid of points
 #' @param variable_splits_with_obs if \code{TRUE} then all values in \code{new_observation} will be included in \code{variable_splits}
 #'
-#' @references Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 #'
 #' @return an object of the class \code{ceteris_paribus_explainer}.
 #'
 #' @examples
 #' library("DALEX")
-#' # smaller data, quicker example
+#' library("ingredients")
 #' titanic_small <- select_sample(titanic_imputed, n = 500, seed = 1313)
 #'
 #' # build a model
@@ -41,8 +41,7 @@
 #'
 #' explain_titanic_glm <- explain(model_titanic_glm,
 #'                                data = titanic_small[,-8],
-#'                                y = titanic_small[,8],
-#'                                verbose = FALSE)
+#'                                y = titanic_small[,8])
 #'
 #' cp_rf <- ceteris_paribus(explain_titanic_glm, titanic_small[1,])
 #' cp_rf
@@ -50,14 +49,14 @@
 #' plot(cp_rf, variables = "age")
 #'
 #' \donttest{
-#' library("randomForest")
-#' model_titanic_rf <- randomForest(survived ~.,  data = titanic_imputed)
+#' library("ranger")
+#' model_titanic_rf <- ranger(survived ~., data = titanic_imputed, probability = TRUE)
 #'
 #'
 #' explain_titanic_rf <- explain(model_titanic_rf,
 #'                               data = titanic_imputed[,-8],
 #'                               y = titanic_imputed[,8],
-#'                               label = "Random Forest v7",
+#'                               label = "ranger forest",
 #'                               verbose = FALSE)
 #'
 #' # select few passangers

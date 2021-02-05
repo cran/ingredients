@@ -50,7 +50,7 @@ a \code{ggplot2} object
 Function \code{plot.ceteris_paribus_explainer} plots Individual Variable Profiles for selected observations.
 Various parameters help to decide what should be plotted, profiles, aggregated profiles, points or rugs.
 
-Find more detailes in \href{https://pbiecek.github.io/ema/ceterisParibus.html}{Ceteris Paribus Chapter}.
+Find more detailes in \href{http://ema.drwhy.ai/ceterisParibus.html}{Ceteris Paribus Chapter}.
 }
 \examples{
 library("DALEX")
@@ -69,13 +69,13 @@ cp_glm
 plot(cp_glm, variables = "age")
 
 \donttest{
-library("randomForest")
-model_titanic_rf <- randomForest(survived ~.,  data = titanic_imputed)
+library("ranger")
+model_titanic_rf <- ranger(survived ~., data = titanic_imputed, probability = TRUE)
 
 explain_titanic_rf <- explain(model_titanic_rf,
                               data = titanic_imputed[,-8],
                               y = titanic_imputed[,8],
-                              label = "Random Forest v7",
+                              label = "ranger forest",
                               verbose = FALSE)
 
 selected_passangers <- select_sample(titanic_imputed, n = 100)
@@ -108,5 +108,5 @@ plotD3(cp_rf, variables = c("class", "embarked", "gender"),
 }
 }
 \references{
-Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema}
+Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 }

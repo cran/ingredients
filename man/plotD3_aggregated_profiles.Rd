@@ -46,22 +46,24 @@ Function \code{\link{plotD3.aggregated_profiles_explainer}} plots an aggregate o
 It works in a similar way to \code{\link{plotD3.ceteris_paribus_explainer}} but, instead of individual profiles,
 show average profiles for each variable listed in the \code{variables} vector.
 
-Find more detailes in \href{https://pbiecek.github.io/ema/ceterisParibus.html}{Ceteris Paribus Chapter}.
+Find more detailes in \href{http://ema.drwhy.ai/ceterisParibus.html}{Ceteris Paribus Chapter}.
 }
 \examples{
 library("DALEX")
-library("randomForest")
+library("ingredients")
+library("ranger")
 
 # smaller data, quicker example
 titanic_small <- select_sample(titanic_imputed, n = 500, seed = 1313)
 
 # build a model
-model_titanic_rf <- randomForest(survived ~.,  data = titanic_small)
+model_titanic_rf <- ranger(survived ~., data = titanic_small, probability = TRUE)
 
 explain_titanic_rf <- explain(model_titanic_rf,
                               data = titanic_small[,-8],
                               y = titanic_small[,8],
-                              label = "Random Forest v7")
+                              label = "ranger forest",
+                              verbose = FALSE)
 
 selected_passangers <- select_sample(titanic_small, n = 100)
 cp_rf <- ceteris_paribus(explain_titanic_rf, selected_passangers)
@@ -82,5 +84,5 @@ plotD3(pdp, variables = c("gender","class"), label_margin = 70)
 
 }
 \references{
-Explanatory Model Analysis. Explore, Explain and Examine Predictive Models. \url{https://pbiecek.github.io/ema}
+Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
 }
