@@ -11,7 +11,7 @@
 
 <meta name="author" content="Przemyslaw Biecek" />
 
-<meta name="date" content="2021-02-05" />
+<meta name="date" content="2021-04-10" />
 
 <title>Simulated data, real problem</title>
 
@@ -387,7 +387,7 @@ summary {
 
 <h1 class="title toc-ignore">Simulated data, real problem</h1>
 <h4 class="author">Przemyslaw Biecek</h4>
-<h4 class="date">2021-02-05</h4>
+<h4 class="date">2021-04-10</h4>
 
 </div>
 
@@ -423,12 +423,13 @@ explain_the_model &lt;- explain(1,
 #&gt;   -&gt; data              :  50  rows  2  cols 
 #&gt;   -&gt; target variable   :  not specified! ( [31m WARNING [39m )
 #&gt;   -&gt; predict function  :  the_model_predict 
-#&gt;   -&gt; predicted values  :  numerical, min =  -0.1726853 , mean =  7.70239 , max =  29.16158  
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( [33m default [39m )
 #&gt;   -&gt; model_info        :  package Model of class: numeric package unrecognized , ver. Unknown , task regression ( [33m default [39m ) 
 #&gt;   -&gt; model_info        :  Model info detected regression task but &#39;y&#39; is a NULL .  ( [31m WARNING [39m )
 #&gt;   -&gt; model_info        :  By deafult regressions tasks supports only numercical &#39;y&#39; parameter. 
 #&gt;   -&gt; model_info        :  Consider changing to numerical vector.
 #&gt;   -&gt; model_info        :  Otherwise I will not be able to calculate residuals or loss function.
+#&gt;   -&gt; predicted values  :  numerical, min =  -0.1726853 , mean =  7.70239 , max =  29.16158  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 </div>
@@ -526,19 +527,19 @@ plot(cd_model_groups) +
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] ggplot2_3.3.2     ranger_0.12.1     ingredients_2.0.1 DALEX_2.0.1      
+#&gt; [1] ggplot2_3.3.3     ranger_0.12.1     ingredients_2.2.0 DALEX_2.2.0      
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] Rcpp_1.0.6       pillar_1.4.7     compiler_4.0.2   tools_4.0.2     
-#&gt;  [5] digest_0.6.27    evaluate_0.14    lifecycle_0.2.0  tibble_3.0.4    
+#&gt;  [5] digest_0.6.27    evaluate_0.14    lifecycle_1.0.0  tibble_3.0.6    
 #&gt;  [9] gtable_0.3.0     lattice_0.20-41  pkgconfig_2.0.3  rlang_0.4.10    
-#&gt; [13] Matrix_1.2-18    yaml_2.2.1       xfun_0.18        withr_2.3.0     
+#&gt; [13] Matrix_1.2-18    yaml_2.2.1       xfun_0.18        withr_2.4.1     
 #&gt; [17] stringr_1.4.0    dplyr_1.0.2      knitr_1.30       generics_0.1.0  
 #&gt; [21] vctrs_0.3.6      grid_4.0.2       tidyselect_1.1.0 glue_1.4.2      
 #&gt; [25] R6_2.5.0         rmarkdown_2.4    farver_2.0.3     purrr_0.3.4     
 #&gt; [29] magrittr_2.0.1   scales_1.1.1     ellipsis_0.3.1   htmltools_0.5.0 
 #&gt; [33] colorspace_2.0-0 labeling_0.4.2   stringi_1.5.3    munsell_0.5.0   
-#&gt; [37] crayon_1.3.4</code></pre>
+#&gt; [37] crayon_1.4.1</code></pre>
 </div>
 
 

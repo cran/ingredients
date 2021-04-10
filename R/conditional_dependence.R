@@ -3,7 +3,7 @@
 #' Conditional Dependence Profiles (aka Local Profiles) average localy Ceteris Paribus Profiles.
 #' Function 'conditional_dependence' calls 'ceteris_paribus' and then 'aggregate_profiles'.
 #'
-#' Find more detailes in the \href{http://ema.drwhy.ai/accumulatedLocalProfiles.html}{Accumulated Local Dependence Chapter}.
+#' Find more details in the \href{https://ema.drwhy.ai/accumulatedLocalProfiles.html}{Accumulated Local Dependence Chapter}.
 #'
 #' @param x an explainer created with function \code{DALEX::explain()}, an object of the class \code{ceteris_paribus_explainer}
 #' or a model to be explained.
@@ -21,7 +21,7 @@
 #' @param variable_type a character. If \code{"numerical"} then only numerical variables will be calculated.
 #' If \code{"categorical"} then only categorical variables will be calculated.
 #'
-#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 #'
 #' @return an object of the class \code{aggregated_profile_explainer}
 #'
@@ -107,7 +107,7 @@ conditional_dependence.default <- function(x,
 
   if (!is.null(N) && N < nrow(data)) {
     # sample N points
-    ndata <- data[sample(1:nrow(data), N),]
+    ndata <- data[sample(1:nrow(data), N), , drop = FALSE]
   } else {
     ndata <- data
   }

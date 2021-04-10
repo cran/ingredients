@@ -46,7 +46,7 @@ Function \code{\link{plotD3.aggregated_profiles_explainer}} plots an aggregate o
 It works in a similar way to \code{\link{plotD3.ceteris_paribus_explainer}} but, instead of individual profiles,
 show average profiles for each variable listed in the \code{variables} vector.
 
-Find more detailes in \href{http://ema.drwhy.ai/ceterisParibus.html}{Ceteris Paribus Chapter}.
+Find more details in \href{https://ema.drwhy.ai/ceterisParibus.html}{Ceteris Paribus Chapter}.
 }
 \examples{
 library("DALEX")
@@ -56,6 +56,7 @@ library("ranger")
 # smaller data, quicker example
 titanic_small <- select_sample(titanic_imputed, n = 500, seed = 1313)
 
+\donttest{
 # build a model
 model_titanic_rf <- ranger(survived ~., data = titanic_small, probability = TRUE)
 
@@ -81,8 +82,9 @@ pdp <- aggregate_profiles(cp_rf, type = "partial", variable_type = "categorical"
 pdp$`_label_` <- "RF_partial"
 
 plotD3(pdp, variables = c("gender","class"), label_margin = 70)
+}
 
 }
 \references{
-Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 }

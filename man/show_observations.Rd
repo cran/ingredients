@@ -41,9 +41,9 @@ Various parameters help to decide what should be plotted, profiles, aggregated p
 \examples{
 library("DALEX")
 library("ingredients")
+\donttest{
 library("ranger")
 
-\donttest{
 rf_model <- ranger(survived ~., data = titanic_imputed, probability = TRUE)
 
 explainer_rf <- explain(rf_model,
@@ -63,5 +63,5 @@ show_observations(cp_rf, variables = "age", color = "black") +
 
 }
 \references{
-Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 }

@@ -6,9 +6,23 @@
 #' @examples
 #' library("DALEX")
 #' library("ingredients")
-#' library("ranger")
+#' titanic_small <- select_sample(titanic_imputed, n = 500, seed = 1313)
+#'
+#' # build a model
+#' model_titanic_glm <- glm(survived ~ gender + age + fare,
+#'                          data = titanic_small,
+#'                          family = "binomial")
+#'
+#' explain_titanic_glm <- explain(model_titanic_glm,
+#'                                data = titanic_small[,-8],
+#'                                y = titanic_small[,8])
+#'
+#' cp_glm <- ceteris_paribus(explain_titanic_glm, titanic_small[1,])
+#' cp_glm
 #'
 #' \donttest{
+#' library("ranger")
+#'
 #' apartments_rf_model <- ranger(m2.price ~., data = apartments)
 #'
 #' explainer_rf <- explain(apartments_rf_model,

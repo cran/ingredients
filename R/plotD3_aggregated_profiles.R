@@ -5,7 +5,7 @@
 #' It works in a similar way to \code{\link{plotD3.ceteris_paribus_explainer}} but, instead of individual profiles,
 #' show average profiles for each variable listed in the \code{variables} vector.
 #'
-#' Find more detailes in \href{http://ema.drwhy.ai/ceterisParibus.html}{Ceteris Paribus Chapter}.
+#' Find more details in \href{https://ema.drwhy.ai/ceterisParibus.html}{Ceteris Paribus Chapter}.
 #'
 #' @param x a aggregated profiles explainer produced with function \code{aggregate_profiles()}
 #' @param ... other explainers that shall be plotted together
@@ -18,7 +18,7 @@
 #' @param chart_title a character. Set custom title
 #' @param label_margin a numeric. Set width of label margins in \code{categorical} type
 #'
-#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 #'
 #' @return a \code{r2d3} object.
 #'
@@ -30,6 +30,7 @@
 #' # smaller data, quicker example
 #' titanic_small <- select_sample(titanic_imputed, n = 500, seed = 1313)
 #'
+#' \donttest{
 #' # build a model
 #' model_titanic_rf <- ranger(survived ~., data = titanic_small, probability = TRUE)
 #'
@@ -55,6 +56,7 @@
 #' pdp$`_label_` <- "RF_partial"
 #'
 #' plotD3(pdp, variables = c("gender","class"), label_margin = 70)
+#' }
 #'
 #' @export
 #' @rdname plotD3_aggregated_profiles

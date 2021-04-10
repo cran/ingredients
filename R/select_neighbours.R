@@ -12,7 +12,7 @@
 #' @param variables names of variables that shall be used for calculation of distance.
 #' By default these are all variables present in \code{data} and \code{observation}
 #' @param distance the distance function, by default the \code{gower_dist()} function.
-#' @param n number of neighbours to select
+#' @param n number of neighbors to select
 #' @param frac if \code{n} is not specified (NULL), then will be calculated as \code{frac} * number of rows in \code{data}.
 #' Either \code{n} or \code{frac} need to be specified.
 #'
@@ -45,6 +45,6 @@ select_neighbours.default <- function(observation, data, variables = NULL, dista
   distances <- distance(observation[,variables, drop = FALSE],
                           data[,variables, drop = FALSE])
   selected_points <- head(order(distances), n)
-  data[selected_points, ]
+  data[selected_points, , drop = FALSE]
 }
 

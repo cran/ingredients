@@ -15,14 +15,14 @@
 #'
 #' @return a \code{ggplot2} layer
 #'
-#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{http://ema.drwhy.ai/}
+#' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 #'
 #' @examples
 #' library("DALEX")
 #' library("ingredients")
+#' \donttest{
 #' library("ranger")
 #'
-#' \donttest{
 #' rf_model <- ranger(survived ~., data = titanic_imputed, probability = TRUE)
 #'
 #' explainer_rf <- explain(rf_model,
