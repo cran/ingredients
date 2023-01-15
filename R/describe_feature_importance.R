@@ -6,6 +6,7 @@
 #'
 #' @importFrom graphics plot
 #' @importFrom stats quantile
+#' @importFrom methods is
 #'
 #' @references Explanatory Model Analysis. Explore, Explain, and Examine Predictive Models. \url{https://ema.drwhy.ai/}
 #'
@@ -28,7 +29,7 @@ describe.feature_importance_explainer <- function(x,
                                                   ...) {
 
   #Error handling
-  if (!(class(nonsignificance_treshold) == 'numeric')) {
+  if (!is(nonsignificance_treshold, "numeric")) {
     stop("Arguments are not valid")
   }
   # fix for https://github.com/ModelOriented/ingredients/issues/95

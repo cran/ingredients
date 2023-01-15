@@ -1,6 +1,6 @@
 Package: ingredients
 Title: Effects and Importances of Model Ingredients
-Version: 2.2.0
+Version: 2.3.0
 Authors@R: c(person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com",
                   role = c("aut", "cre"),
                   comment = c(ORCID = "0000-0001-8423-1823")),
@@ -22,7 +22,7 @@ Description: Collection of tools for assessment of feature importance and featur
 Depends: R (>= 3.5)
 License: GPL-3
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Imports: ggplot2, scales, gridExtra, methods
 Suggests: DALEX, gower, ranger, testthat, r2d3, jsonlite, knitr,
         rmarkdown, covr
@@ -31,10 +31,10 @@ URL: https://ModelOriented.github.io/ingredients/,
 BugReports: https://github.com/ModelOriented/ingredients/issues
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2021-04-10 09:33:56 UTC; pbiecek
+Packaged: 2023-01-14 23:08:04 UTC; pbiecek
 Author: Przemyslaw Biecek [aut, cre] (<https://orcid.org/0000-0001-8423-1823>),
   Hubert Baniecki [aut] (<https://orcid.org/0000-0001-6661-5364>),
   Adam Izdebski [ctb]
 Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-04-10 10:10:02 UTC
+Date/Publication: 2023-01-15 11:40:02 UTC
